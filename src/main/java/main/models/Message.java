@@ -16,6 +16,22 @@ public class Message<T> {
         this.successful = successful;
     }
 
+    @Override
+    public boolean equals(Object obj)
+    {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        if (!message.equals(((Message<T>) obj).message))
+            return false;
+        if (successful != ((Message<T>) obj).successful)
+            return false;
+        return true;
+    }
+
     /*
     Без аннотации компилятор выдаст предупреждение о том,
     что локальная переменная s не используется. С аннотацией
