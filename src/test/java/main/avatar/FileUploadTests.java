@@ -41,6 +41,7 @@ public class FileUploadTests {
     private final User testUser = new User((long)1,"test", "e.mail@mail.ru", "test", "sdfsd",0,0);
 
 
+
     @Test
     public void shouldSaveUploadedFile() throws Exception {
         final MockMultipartFile multipartFile = new MockMultipartFile("file", "test.png",

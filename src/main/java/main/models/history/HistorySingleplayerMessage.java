@@ -1,39 +1,23 @@
 package main.models.history;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import main.dao.SingleplayerSystemDao;
-import main.domain.HistorySingleplayer;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import java.sql.Timestamp;
+import java.util.Objects;
 
-import java.util.Date;
-
-@Service
 public class HistorySingleplayerMessage {
 
-    @JsonIgnore
-    private final SingleplayerSystemDao singleplayerDao;
-
-    private Date date;
+    private Timestamp date;
     private Long score;
 
-    @Autowired
-    public HistorySingleplayerMessage(SingleplayerSystemDao singleplayerDao) {
-        this.singleplayerDao = singleplayerDao;
+    public HistorySingleplayerMessage(Timestamp date, Long score) {
+        this.date = date;
+        this.score = score;
     }
 
-    public HistorySingleplayerMessage(SingleplayerSystemDao singleplayerDao, HistorySingleplayer historySingleplayer) {
-        this.singleplayerDao = singleplayerDao;
-        this.date = historySingleplayer.getDate();
-        this.score = this.singleplayerDao.getById(historySingleplayer.getGameId()).getScore();
-    }
-
-
-    public Date getDate() {
+    public Timestamp getDate() {
         return date;
     }
 
-    public void setDate(Date date) {
+    public void setDate(Timestamp date) {
         this.date = date;
     }
 
@@ -43,5 +27,20 @@ public class HistorySingleplayerMessage {
 
     public void setScore(Long score) {
         this.score = score;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        HistorySingleplayerMessage that = (HistorySingleplayerMessage) o;
+        return Objects.equals(date, that.date) &&
+                Objects.equals(score, that.score);
+    }
+
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(date, score);
     }
 }

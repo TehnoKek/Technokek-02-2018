@@ -1,48 +1,23 @@
 package main.domain;
 
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
-import java.util.Date;
+import java.sql.Timestamp;
 import java.util.Objects;
 
-@Entity
-@Table(name = "history_singleplayer")
 public class HistoryMultiplayer {
-    @Id
-    private Long id;
 
-    @Column(name = "user_id")
-    private Long userId;
-
-    @Column(name = "game_id")
     private Long gameId;
+    private Long user1;
+    private Long user2;
+    private Long score;
+    private Timestamp data;
 
-    private Date date;
-
-    public HistoryMultiplayer(Long id, Long userId, Long gameId, Date date) {
-        this.id = id;
-        this.userId = userId;
+    public HistoryMultiplayer(Long gameId, Long user1, Long user2, Long score, Timestamp data) {
         this.gameId = gameId;
-        this.date = date;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public Long getUserId() {
-        return userId;
-    }
-
-    public void setUserId(Long userId) {
-        this.userId = userId;
+        this.user1 = user1;
+        this.user2 = user2;
+        this.score = score;
+        this.data = data;
     }
 
     public Long getGameId() {
@@ -53,35 +28,53 @@ public class HistoryMultiplayer {
         this.gameId = gameId;
     }
 
-    public Date getDate() {
-        return date;
+    public Long getUser1() {
+        return user1;
     }
 
-    public void setDate(Date date) {
-        this.date = date;
+    public void setUser1(Long user1) {
+        this.user1 = user1;
+    }
+
+    public Long getUser2() {
+        return user2;
+    }
+
+    public void setUser2(Long user2) {
+        this.user2 = user2;
+    }
+
+    public Long getScore() {
+        return score;
+    }
+
+    public void setScore(Long score) {
+        this.score = score;
+    }
+
+    public Timestamp getData() {
+        return data;
+    }
+
+    public void setData(Timestamp data) {
+        this.data = data;
     }
 
     @Override
-    public boolean equals(Object object) {
-        if (this == object) {
-            return true;
-        }
-        if (object == null || getClass() != object.getClass()) {
-            return false;
-        }
-        final HistoryMultiplayer history = (HistoryMultiplayer) object;
-        return Objects.equals(id, history.id)
-                &&
-                Objects.equals(userId, history.userId)
-                &&
-                Objects.equals(gameId, history.gameId)
-                &&
-                Objects.equals(date, history.date);
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        HistoryMultiplayer that = (HistoryMultiplayer) o;
+        return Objects.equals(gameId, that.gameId) &&
+                Objects.equals(user1, that.user1) &&
+                Objects.equals(user2, that.user2) &&
+                Objects.equals(score, that.score) &&
+                Objects.equals(data, that.data);
     }
 
     @Override
     public int hashCode() {
 
-        return Objects.hash(id, userId, gameId, date);
+        return Objects.hash(gameId, user1, user2, score, data);
     }
 }

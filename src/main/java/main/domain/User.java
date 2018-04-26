@@ -31,6 +31,10 @@ public class User {
         this.gamesNumber = gamesNumber;
     }
 
+    public User() {
+
+    }
+
 
     public Long getId() {
         return id;

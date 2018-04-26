@@ -158,10 +158,35 @@ public class UserService {
         return new Message<HashMap>(true, scoreboard);
     }
 
-    public void getHistorySingleplayer(HttpSession session, Integer page) {
+    public Message getHistorySingleplayer(HttpSession session, Integer page) {
+        final Long id = (Long) session.getAttribute("userId");
+        ErrorStackMessages errorStackMessages = new ErrorStackMessages();
+        if (id == null) {
+            errorStackMessages.addGlobalError(ErrorTypes.getErrorsMap().get(ErrorTypes.getNotFound()));
+            return new Message<>(false, errorStackMessages);
+        }
+        final User curUser = userDao.getById(id);
+        if (curUser == null) {
+            errorStackMessages.addGlobalError(ErrorTypes.getErrorsMap().get(ErrorTypes.getNotFound()));
+            return new Message<>(false, errorStackMessages);
+        }
+        return new Message<List>(true, histSingMes.paginate(page, historyDaoSystem.getUserHistorySingleplayer(id)));
+
     }
 
-    public void getHistoryMultiplayer(HttpSession session, Integer page) {
+    public Message getHistoryMultiplayer(HttpSession session, Integer page) {
+        final Long id = (Long) session.getAttribute("userId");
+        ErrorStackMessages errorStackMessages = new ErrorStackMessages();
+        if (id == null) {
+            errorStackMessages.addGlobalError(ErrorTypes.getErrorsMap().get(ErrorTypes.getNotFound()));
+            return new Message<>(false, errorStackMessages);
+        }
+        final User curUser = userDao.getById(id);
+        if (curUser == null) {
+            errorStackMessages.addGlobalError(ErrorTypes.getErrorsMap().get(ErrorTypes.getNotFound()));
+            return new Message<>(false, errorStackMessages);
+        }
+        return new Message<List>(true, histMultMes.paginate( page, historyDaoSystem.getUserHistoryMultiplayer(id)));
     }
 
     public Message getPlayer(Long id) {
