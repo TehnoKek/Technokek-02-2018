@@ -4,7 +4,6 @@ import main.models.Message;
 import main.service.avatars.AvatarControllerService;
 import main.service.avatars.AvatarGeneralException;
 import main.service.avatars.AvatarStorageService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -19,7 +18,7 @@ public class AvatarUploadController {
     private final AvatarStorageService avatarStorageService;
     private final AvatarControllerService avatarControllerService;
 
-    @Autowired
+
     public AvatarUploadController(AvatarStorageService storageService, AvatarControllerService avatarControllerService) {
         this.avatarStorageService = storageService;
         this.avatarControllerService = avatarControllerService;
@@ -27,8 +26,8 @@ public class AvatarUploadController {
 
     @GetMapping(value = "/avatars/{avatar:.+}")
     @ResponseBody
-    public ResponseEntity<Resource> serveFile(@PathVariable String avatar) {
-        return AvatarControllerService.dropAvatar(avatar, avatarStorageService);
+    public ResponseEntity<Resource> findFile(@PathVariable String avatar) {
+        return AvatarControllerService.getAvatar(avatar, avatarStorageService);
     }
 
     @PostMapping("/upload/avatar/")

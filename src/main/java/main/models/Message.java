@@ -1,6 +1,6 @@
 package main.models;
 
-import org.jetbrains.annotations.Nullable;
+import org.springframework.lang.Nullable;
 
 public class Message<T> {
     private final T message;
@@ -17,19 +17,22 @@ public class Message<T> {
     }
 
     @Override
-    public boolean equals(Object obj)
-    {
+    public boolean equals(Object obj) {
         if (this == obj)
             return true;
         if (obj == null)
             return false;
         if (getClass() != obj.getClass())
             return false;
-        if (!message.equals(((Message<T>) obj).message))
+        if ( ((Message<?>)obj).successful != this.successful)
             return false;
-        if (successful != ((Message<T>) obj).successful)
+        if ( ((Message<?>)obj).message == this.message)
+            return true;
+        if ( !((Message<?>)obj).message.equals(this.message))
             return false;
         return true;
+
+
     }
 
     /*
@@ -39,7 +42,8 @@ public class Message<T> {
      */
 
     @SuppressWarnings("unused")
-    public @Nullable T getMessage() {
+    public @Nullable
+    T getMessage() {
         return message;
     }
 

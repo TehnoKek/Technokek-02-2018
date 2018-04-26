@@ -1,6 +1,6 @@
 package main.service.avatars;
 
-import main.models.User;
+import main.domain.User;
 import main.properties.FileStorageProperties;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.annotation.PostConstruct;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.nio.file.Files;
@@ -24,12 +25,13 @@ public class AvatarStorageSystem implements AvatarStorageService {
 
     @Autowired
     public AvatarStorageSystem(FileStorageProperties properties) {
-        this.rootLocation = Paths.get(properties.getLocation() + "avatars/");
+        this.rootLocation = Paths.get(properties.getLocation() + "user_api_files/avatars/");
     }
+
 
     @Override
     public void saveAvatar(MultipartFile file, User curUser) {
-        final String filename = StringUtils.cleanPath(file.getOriginalFilename());
+        final String filename = StringUtils.cleanPath(curUser.getId() + file.getOriginalFilename());
         try {
             if (file.isEmpty()) {
                 throw new AvatarGeneralException("Failed to store empty file " + filename);
@@ -83,6 +85,7 @@ public class AvatarStorageSystem implements AvatarStorageService {
     }
 
     @Override
+    @PostConstruct
     public void init() {
         try {
             Files.createDirectories(rootLocation);

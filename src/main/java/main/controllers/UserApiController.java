@@ -1,9 +1,9 @@
 package main.controllers;
 
-import main.models.User;
+import main.domain.User;
 import main.models.Message;
 import main.service.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
@@ -13,7 +13,6 @@ public class UserApiController {
 
     private final UserService userService;
 
-    @Autowired
     public UserApiController(UserService userService) {
         this.userService = userService;
     }
@@ -33,14 +32,9 @@ public class UserApiController {
         return userService.getPlayer(id);
     }
 
-    @PostMapping(value = "/register", produces = "application/json")
-    public Message register(@RequestBody User newbie) {
-        return userService.registUser(newbie);
-    }
-
-    @GetMapping(value = "/{unknown}", produces = "application/json")
-    public Message fail(@PathVariable("unknown") String unknown) {
-        return UserService.notFound(unknown);
+    @PostMapping(value = "/signup", produces = "application/json")
+    public Message register(@RequestBody User newbie, HttpSession httpSession) throws Exception {
+        return userService.registUser(newbie, httpSession);
     }
 
     @PostMapping(value = "/login", produces = "application/json")
@@ -48,7 +42,7 @@ public class UserApiController {
         return userService.login(user, session);
     }
 
-    @PostMapping(value = "/edit", produces = "application/json")
+    @PostMapping(value = "/user/edit", produces = "application/json")
     public Message editProfile(@RequestBody User user, HttpSession session) {
         return userService.editUser(user, session);
     }
